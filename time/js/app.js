@@ -125,7 +125,7 @@ $(document).ready(function(){
     });
 
 
-    var mess = "<span>没想到新年马上就要到了</span><span class='B-span2'>祝你我新年快乐！</span><span>你好2024新的一年。</span>";
+    var mess = "<span>没想到新年马上就要到了</span><span class='B-span2'>祝你我新年快乐！</span><span>你好2025新的一年。</span>";
     $(".Barrage").append(mess);
 
     $(".buts").click(function(){
@@ -208,8 +208,8 @@ $(document).ready(function(){
         wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
             
             wx.updateAppMessageShareData({ 
-                title: 'Hello, 2024 happy new year', // 分享标题
-                desc: '你好, 2024, 新年快乐！ 除夕倒计时, 一大波弹幕正在来袭！！', // 分享描述
+                title: 'Hello, 2025 happy new year', // 分享标题
+                desc: '你好, 2025, 新年快乐！ 除夕倒计时, 一大波弹幕正在来袭！！', // 分享描述
                 imgUrl: 'https://www.shuhaisc.com/Clock/images/time.jpg', // 分享图标
                 success: function () {
                     // alert("分享成功!");
