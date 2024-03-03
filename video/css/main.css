@@ -1,0 +1,290 @@
+* {
+  font-family: "Helvetica Neue", "PingFang SC", "Source Han Sans",
+    "Microsoft YaHei UI", "Microsoft YaHei", "Roboto Mono", monospace, Arial,
+    sans-serif;
+}
+
+/*亮色模式*/
+@media (prefers-color-scheme: light) {
+  body {
+    background: linear-gradient(45deg,
+        #feac5e 0,
+        #feac5e 16.66%,
+        #1cbbb4 16.66%,
+        #1cbbb4 33.33%,
+        #39b54a 33.33%,
+        #39b54a 50%,
+        #feac5e 50%,
+        #feac5e 66.66%,
+        #1cbbb4 66.66%,
+        #1cbbb4 83.33%,
+        #39b54a 83.33%,
+        #39b54a);
+    color: #202b20;
+  }
+
+  .beijing {
+    background-color: #f3feff;
+  }
+
+  .touming {
+    background-color: #ffffffa6;
+  }
+
+  a {
+    color: #000
+  }
+
+  .shuju p {
+    color: dimgrey;
+  }
+
+  .shuju b {
+    color: #444;
+  }
+}
+
+/*暗色模式*/
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(45deg,
+        #cd8c50 0,
+        #cd8c50 16.66%,
+        #0e5c58 16.66%,
+        #0e5c58 33.33%,
+        #267731 33.33%,
+        #267731 50%,
+        #cd8c50 50%,
+        #cd8c50 66.66%,
+        #0e5c58 66.66%,
+        #0e5c58 83.33%,
+        #267731 83.33%,
+        #267731);
+
+    color: #999;
+  }
+
+  .beijing {
+    background-color: #202b20;
+  }
+
+  .touming {
+    background-color: #000000a6;
+  }
+
+  a {
+    color: #aaa
+  }
+
+  .shuju p {
+    color: #999;
+  }
+
+  .shuju b {
+    color: #aaa;
+  }
+}
+
+body {
+  margin: 0px;
+  background-size: 800px 800px;
+}
+
+header {
+  height: 60px;
+  position: fixed;
+  top: 4px;
+  right: 0px;
+  left: 0px;
+  z-index: 2;
+  margin-right: 8px;
+  margin-left: 8px;
+  backdrop-filter: blur(15px);
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+header a {
+  text-shadow: .8px .8px 0px #999;
+}
+
+footer {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.banquan {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  padding: 15px 5px 10px 5px;
+  border-radius: 15px;
+}
+
+footer a {
+  color: #666;
+  border-bottom: 1px dashed;
+}
+
+a {
+  text-decoration: none;
+}
+
+.flex {
+  display: flex;
+}
+
+.yinying {
+  box-shadow: rgb(0 0 0 / 20%) 0px 2px 1px -1px,
+    rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px;
+}
+
+.flex1 {
+  flex: 1;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.daohang {
+
+  line-height: 2;
+  font-size: 15px;
+  color: #666;
+}
+
+.shuju {
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+}
+
+.shuju p {
+  margin: 5px;
+  font-size: 12px;
+}
+
+.shuju b {
+  margin: 0 20px;
+  font-size: 14px;
+}
+
+.qgdt::-webkit-scrollbar {
+  display: none;
+}
+
+.bj8 {
+  margin: 8px;
+}
+
+.zbj8 {
+  margin-left: 8px;
+}
+
+.ybj8 {
+  margin-right: 8px;
+}
+
+.sbj8 {
+  margin-top: 8px;
+}
+
+.yuanjiao {
+  border-radius: 15px;
+}
+
+/*屏幕宽度600px内生效*/
+@media (max-width: 720px) {
+  .touzuobian {
+    flex: 1;
+    text-align: left;
+    margin-left: 20px;
+  }
+
+  .touzhongjian {
+    justify-content: space-around;
+    margin: 0 10px;
+    flex: 3
+  }
+
+  .touyoubian {
+    flex: 1;
+    text-align: right;
+    margin-right: 20px;
+  }
+
+  .sjyincang {
+    display: none;
+  }
+
+  .mzbj8 {
+    margin-left: 8px;
+  }
+
+  .shuxiang {
+    flex-direction: column;
+  }
+
+  .llqnh {
+    padding: 20px 5px 40px 5px;
+  }
+}
+
+/*屏幕宽度601px外生效*/
+@media (min-width: 721px) {
+  .touzuobian {
+    flex: 2;
+    text-align: left;
+    margin-left: 20px;
+  }
+
+  .touzhongjian {
+    justify-content: space-around;
+    flex: 1
+  }
+
+  .touyoubian {
+    flex: 2;
+    text-align: right;
+    margin-right: 20px;
+  }
+
+  .cebian {
+    width: 200px;
+    backdrop-filter: blur(15px);
+    z-index: 1;
+    position: fixed;
+    top: 72px;
+    left: 8px;
+    bottom: 8px;
+  }
+
+  .zbj64 {
+    margin-left: 208px;
+  }
+
+  .llqnh {
+    padding: 20px 65px 40px 65px;
+  }
+
+}
+
+.llqnh td,
+.llqnh th {
+  border-bottom: 1px solid #a1a1a1;
+  padding: 10px;
+}
