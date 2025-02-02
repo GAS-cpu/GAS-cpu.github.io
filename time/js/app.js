@@ -125,7 +125,7 @@ $(document).ready(function(){
     });
 
 
-    var mess = "<span>没想到新年马上就要到了</span><span class='B-span2'>祝你我新年快乐！</span><span>你好2025新的一年。</span>";
+    var mess = "<span>没想到新年马上就要到了</span><span class='B-span2'>祝你我新年快乐！</span><span>你好2026新的一年。</span>";
     $(".Barrage").append(mess);
 
     $(".buts").click(function(){
