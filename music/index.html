@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐播放器</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="player-container">
+        <div class="card">
+            <div class="header">
+               
+                <div class="time-info"></div>
+               
+                <div class="date-info"></div>
+            </div>
+            <div class="music-info">
+                <div class="cover">
+                    <img src="" alt="" id="cover">
+                </div>
+                <h2 class="song-name"></h2>
+                <p class="artist-name"></p>
+                <div class="time-range">
+                    <span class="current-time">00:00</span>
+                    <span class="total-time">00:00</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="control-btn" id="prevBtn">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="control-btn" id="playBtn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn" id="nextBtn">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            <div class="hitokoto">
+                <p class="hitokoto-text"></p>
+                <p class="hitokoto-from"></p>
+            </div>
+            <div class="decoration"></div>
+            <div class="decoration-right"></div>
+        </div>
+        
+    </div>
+    <audio id="audio" src=""></audio>
+    <script src="script.js"></script>
+</body>
+</html> 
