@@ -53,7 +53,7 @@ class MusicPlayer {
     
     async loadPlaylist() {
         try {
-            const response = await fetch('https://gas-cpu.github.io/music/gequ');
+            const response = await fetch('https://gas-cpu.github.io/music/gequ.txt');
             const data = await response.json();
             this.playlist = data.map(song => ({
                 name: song.name,
