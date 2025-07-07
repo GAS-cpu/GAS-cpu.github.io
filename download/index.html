@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>煤气浏览器</title>
+    <style>
+        body {
+            background-color: #e9eff1;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 500px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .container:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .download-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 20px;
+            margin: 20px 0;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 123, 255, 0.3);
+        }
+
+        .download-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .latency {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .intro-image {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 10px 0;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        p {
+            color: #555;
+            margin: 10px 0;
+        }
+
+        h2 {
+            margin-top: 20px;
+            font-size: 22px;
+            color: #444;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #999;
+        }
+
+        .developer-info {
+            margin-top: 20px;
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .select-line {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #007bff;
+            font-size: 16px;
+            width: 100%;
+            transition: border 0.3s;
+        }
+
+        .select-line:focus {
+            border-color: #0056b3;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .features, .reviews {
+            margin: 20px 0;
+            text-align: left;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .features h3, .reviews h3 {
+            margin-top: 0;
+            color: #444;
+        }
+
+        .feature-item, .review-item {
+            margin: 10px 0;
+            padding: 5px;
+            border-left: 4px solid #007bff;
+            background: #f0f8ff;
+            transition: background 0.2s;
+        }
+
+        .feature-item:hover, .review-item:hover {
+            background: #e0f7ff;
+        }
+
+        .version-info {
+            font-size: 14px;
+            color: #555;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="https://gas-cpu.github.io/download/icon.png" alt="软件图标" class="icon">
+    <h1>煤气浏览器</h1>
+    <p>Version 9.2</p>
+    <p>煤气浏览器9.2版本焕新，去除一些无用功能并减小了一些安装包体积<p/>
+    <p>去除腾讯X5内核，使用系统自带Webview减小体积、加快访问速度</p>
+    <p>建议加速Github下载</p>
+
+    <div class="version-info">发布日期：2025年07月07日</div>
+
+    <h2>选择下载线路</h2>
+    <select class="select-line" id="downloadSelect"></select>
+    <button class="download-button" onclick="directDownload()">开始下载</button>
+
+    <footer>
+        &copy; 2022 - Now NTFS 
+    </footer>
+</div>
+
+<div class="container features">
+    <h3>主要功能</h3>
+    <div class="feature-item">✔️ 功能一：程序简洁流畅</div>
+    <div class="feature-item">✔️ 功能二：多功能多工具</div>
+    <div class="feature-item">✔️ 功能三：用户友好的界面</div>
+</div>
+
+<div class="container reviews">
+    <h3>用户评价</h3>
+    <div class="review-item">⭐️⭐️⭐️⭐️⭐️ "这款软件真是太棒了！" - 白鸽</div>
+    <div class="review-item">⭐️⭐️⭐️⭐️ "使用非常流畅，推荐给大家！" - 小张科技</div>
+    <div class="review-item">⭐️⭐️⭐️⭐️⭐️ "这款软件果然名不虚传，里面有许多资源，搜索一下更是你想要的都有！" - 神梦网络</div>
+</div>
+
+<div class="container developer-info">
+    <h2>开发人员</h2>
+    <p><strong>昵称：</strong> NTFS</p>
+     <p><strong></strong>昨天永远是历史，明天永远是未知，今天就在脚下。</p>
+    </div>
+<script>
+    const downloadLinks = [
+        { url: "https://gas-cpu.github.io/download/browser.apk", label: "Github线路" },
+        { url: "https://share.feijipan.com/s/ltFB4HGw", label: "历史版本" }
+    ];
+
+    const downloadSelect = document.getElementById("downloadSelect");
+
+    function populateSelect() {
+        downloadLinks.forEach(link => {
+            const option = document.createElement("option");
+            option.value = link.url;
+            option.textContent = link.label;
+            downloadSelect.appendChild(option);
+        });
+    }
+
+    async function checkLatency(url) {
+        const startTime = Date.now();
+        try {
+            const response = await fetch(url, { method: 'HEAD', mode: 'no-cors' });
+            const endTime = Date.now();
+            const latency = endTime - startTime;
+            return latency; // 返回延迟
+        } catch (error) {
+            return null; // 链接不正常
+        }
+    }
+
+    async function updateLatencies() {
+        for (const link of downloadLinks) {
+            const latency = await checkLatency(link.url);
+            const option = Array.from(downloadSelect.options).find(opt => opt.value === link.url);
+            if (latency !== null) {
+                option.textContent += ` (延迟: ${latency}ms)`;
+            } else {
+                option.textContent += ` (链接不正常)`;
+            }
+        }
+    }
+
+    function directDownload() {
+        const selectedUrl = downloadSelect.value;
+        window.location.href = selectedUrl; // 跳转到选择的下载链接
+    }
+
+    // 初始化下拉菜单和更新延迟信息
+    populateSelect();
+    updateLatencies();
+</script>
+
+</body>
+</html>
