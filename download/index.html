@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>下载中心</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        :root {
+            --primary: #4a6bff;
+            --primary-dark: #3a56d4;
+            --windows: #0078d7;
+            --android: #3ddc84;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --border-radius: 12px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7ff 0%, #e3e9ff 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 2.5rem 0;
+            text-align: center;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 50%;
+        }
+        
+        .logo-text {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* 平台导航 */
+        .platform-nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 2px solid #eaeaea;
+        }
+        
+        .platform-tab {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--dark);
+        }
+        
+        .platform-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .platform-tab:hover {
+            color: var(--primary);
+        }
+        
+        /* 平台内容区域 */
+        .platform-content {
+            display: none;
+        }
+        
+        .platform-content.active {
+            display: block;
+        }
+        
+        .platform-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2.5rem;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.8rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .section-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 1.8rem;
+            color: white;
+        }
+        
+        .windows-section .section-icon {
+            background: linear-gradient(135deg, var(--windows), #106ebe);
+        }
+        
+        .android-section .section-icon {
+            background: linear-gradient(135deg, var(--android), #2ac46e);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+        
+        .section-subtitle {
+            color: #666;
+            margin-top: 5px;
+            font-size: 1rem;
+        }
+        
+        /* 软件列表 - 应用商店样式 */
+        .software-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .software-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            background: #f9f9f9;
+            transition: var(--transition);
+            border: 1px solid #eee;
+        }
+        
+        .software-item:hover {
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transform: translateY(-3px);
+        }
+        
+        .item-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 25px;
+            font-size: 2rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .windows-item .item-icon {
+            background: linear-gradient(135deg, var(--windows), #106ebe);
+        }
+        
+        .android-item .item-icon {
+            background: linear-gradient(135deg, var(--android), #2ac46e);
+        }
+        
+        .item-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .item-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .item-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-right: 15px;
+        }
+        
+        .item-version {
+            background: rgba(74, 107, 255, 0.1);
+            color: var(--primary);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .item-description {
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        
+        .item-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-tag {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        
+        .item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .file-info span {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .file-info i {
+            margin-right: 5px;
+        }
+        
+        .item-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .download-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+        
+        .windows-item .download-btn {
+            background: var(--windows);
+        }
+        
+        .android-item .download-btn {
+            background: var(--android);
+        }
+        
+        .download-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .download-btn i {
+            margin-right: 8px;
+        }
+        
+        .secondary-btn {
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .secondary-btn:hover {
+            background: rgba(74, 107, 255, 0.05);
+        }
+        
+        /* 页脚 */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 2.5rem 0;
+            text-align: center;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            margin-top: 2rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .platform-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .platform-tab {
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid #eee;
+                padding: 1rem;
+            }
+            
+            .software-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .item-icon {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .item-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .item-actions {
+                width: 100%;
+                flex-direction: column;
+            }
+            
+            .download-btn, .secondary-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .file-info {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .file-info span {
+                margin-right: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header {
+                padding: 2rem 0;
+            }
+            
+            .logo-text {
+                font-size: 1.8rem;
+            }
+            
+            .logo-icon {
+                font-size: 2rem;
+                padding: 12px;
+            }
+            
+            .platform-section {
+                padding: 1.5rem;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .section-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .item-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .item-title {
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+        }
+        
+        /* 下载提示 */
+        .download-hint {
+            background: rgba(74, 107, 255, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin-top: 2rem;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .download-hint h4 {
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+        
+        .download-hint p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        /* 推荐标签 */
+        .recommended-badge {
+            background: #ff4757;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        /* 下载统计 */
+        .download-stats {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            text-align: center;
+        }
+        
+        .stats-title {
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .stat-item {
+            padding: 1.5rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: var(--secondary);
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部区域 -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-download"></i>
+                </div>
+                <h1 class="logo-text">软件下载中心</h1>
+            </div>
+            <p class="tagline">提供电脑端与移动端应用程序下载，安全可靠，快速便捷。</p>
+        </div>
+    </header>
+    
+    <main class="container">
+        <!-- 下载统计 -->
+        <section class="download-stats">
+            <h2 class="stats-title">下载统计</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value">1,250,847</div>
+                    <div class="stat-label">Windows版总下载量</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">892,563</div>
+                    <div class="stat-label">Android版总下载量</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">今日更新</div>
+                    <div class="stat-label">所有软件均为最新版本</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 平台导航 -->
+        <div class="platform-nav">
+            <button class="platform-tab active" data-platform="windows">
+                <i class="fab fa-windows"></i> 电脑端 (Windows)
+            </button>
+            <button class="platform-tab" data-platform="android">
+                <i class="fab fa-android"></i> 移动端 (Android)
+            </button>
+        </div>
+        
+        <!-- Windows 平台内容 -->
+        <div id="windows-content" class="platform-content active">
+            <section class="platform-section windows-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fab fa-windows"></i>
+                    </div>
+                    <div>
+                        <h2 class="section-title">Windows 应用程序</h2>
+                        <p class="section-subtitle">专为Windows系统设计的桌面应用程序</p>
+                    </div>
+                </div>
+                
+                <div class="software-list">
+                    <!-- Windows 程序 1: BrowserConsole -->
+                    <div class="software-item windows-item">
+                        <div class="item-icon">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <div class="item-details">
+                            <div class="item-header">
+                                <h3 class="item-title">BrowserConsole</h3>
+                                <span class="item-version">v2.8.1</span>
+                            </div>
+                            <p class="item-description">
+                                Windows浏览器控制台，提供强大的浏览器调试和开发功能。
+                            </p>
+                            <div class="item-features">
+                                <span class="feature-tag">浏览器控制</span>
+                                <span class="feature-tag">调试工具</span>
+                                <span class="feature-tag">开发辅助</span>
+                            </div>
+                            <div class="item-footer">
+                                <div class="file-info">
+                                    <span><i class="far fa-file"></i> 5 MB</span>
+                                    <span><i class="far fa-calendar"></i> 2026-01-15</span>
+                                    <span><i class="fas fa-desktop"></i> Windows 8.1+</span>
+                                </div>
+                                <div class="item-actions">
+                                    <a href="https://www.685132.xyz/download/bc/inst1.3.exe" class="download-btn" download>
+                                        <i class="fas fa-download"></i> 下载安装包
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Windows 程序 2: ParticleSystem -->
+                    <div class="software-item windows-item">
+                        <div class="item-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="item-details">
+                            <div class="item-header">
+                                <h3 class="item-title">ParticleSystem</h3>
+                                <span class="item-version">v1.0.0</span>
+                                <span class="recommended-badge">推荐</span>
+                            </div>
+                            <p class="item-description">
+                                粒子系统演示程序是一款基于Win32 API和GDI图形库开发的交互式粒子效果模拟器。该程序展示了高级的图形编程技术，实现了美观、流畅且高度可配置的粒子视觉效果。
+                            </p>
+                            <div class="item-features">
+                                <span class="feature-tag">实时交互粒子系统</span>
+                                <span class="feature-tag">多重可视化主题</span>
+                                <span class="feature-tag">智能动画控制</span>
+                                <span class="feature-tag">可调整粒子参数</span>
+                            </div>
+                            <div class="item-footer">
+                                <div class="file-info">
+                                    <span><i class="far fa-file"></i> 1 MB</span>
+                                    <span><i class="far fa-calendar"></i> 2026-01-15</span>
+                                    <span><i class="fas fa-desktop"></i> Windows 7+</span>
+                                </div>
+                                <div class="item-actions">
+                                    <a href="https://www.685132.xyz/downloads/ps/ParticleSystem.exe" class="download-btn" download>
+                                        <i class="fas fa-download"></i> 下载文件
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="download-hint">
+                    <h4><i class="fas fa-info-circle"></i> Windows安装提示</h4>
+                    <p>下载.exe安装程序后，双击运行并按照安装向导提示完成安装。如遇到安全警告，请点击"更多信息"→"仍要运行"。</p>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Android 平台内容 -->
+        <div id="android-content" class="platform-content">
+            <section class="platform-section android-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <div>
+                        <h2 class="section-title">Android 应用程序</h2>
+                        <p class="section-subtitle">专为Android移动设备设计的应用程序</p>
+                    </div>
+                </div>
+                
+                <div class="software-list">
+                    <!-- Android 程序: 煤气浏览器 -->
+                    <div class="software-item android-item">
+                        <div class="item-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="item-details">
+                            <div class="item-header">
+                                <h3 class="item-title">煤气浏览器</h3>
+                                <span class="item-version">v9.2</span>
+                                <span class="recommended-badge">热门</span>
+                            </div>
+                            <p class="item-description">
+                                专为Android设备打造的移动浏览器应用，具有简洁的用户界面并使用系统内置浏览器内核减轻计算压力。
+                            </p>
+                            <div class="item-features">
+                                <span class="feature-tag">简洁界面</span>
+                                <span class="feature-tag">系统内核</span>
+                                <span class="feature-tag">快速浏览</span>
+                                <span class="feature-tag">轻量设计</span>
+                            </div>
+                            <div class="item-footer">
+                                <div class="file-info">
+                                    <span><i class="far fa-file"></i> 5 MB</span>
+                                    <span><i class="far fa-calendar"></i> 2025-08-19</span>
+                                    <span><i class="fas fa-mobile-alt"></i> Android 5.0+</span>
+                                </div>
+                                <div class="item-actions">
+                                    <a href="https://www.685132.xyz/download/browser.apk" class="download-btn" download>
+                                        <i class="fas fa-download"></i> 下载APK
+                                    </a>
+                                    <a href="https://www.685132.xyz/download/browser.apk" class="secondary-btn">
+                                        <i class="fab fa-google-play"></i> Google Play
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="download-hint">
+                    <h4><i class="fas fa-info-circle"></i> Android安装提示</h4>
+                    <p>下载APK文件后，点击安装。首次安装可能需要开启"允许来自此来源的应用"权限。建议从官方应用商店下载以确保安全。</p>
+                </div>
+            </section>
+        </div>
+        
+        <!-- 安装指南 -->
+        <section class="download-stats">
+            <h2 class="stats-title">安装指南</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value">Windows</div>
+                    <div class="stat-label">1. 下载.exe程序<br>2. 双击运行</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">Android</div>
+                    <div class="stat-label">1. 下载APK文件<br>2. 允许安装未知来源应用<br>3. 安装并打开应用</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">注意</div>
+                    <div class="stat-label">请从本页面直接下载<br>确保下载来源安全<br>安装前关闭安全软件</div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <p class="copyright">© 2026 NTFS 版权所有</p>
+        </div>
+    </footer>
+    
+    <script>
+        // 平台切换功能
+        document.querySelectorAll('.platform-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // 更新活动标签
+                document.querySelectorAll('.platform-tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // 显示对应的内容
+                const platform = this.getAttribute('data-platform');
+                document.querySelectorAll('.platform-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                document.getElementById(`${platform}-content`).classList.add('active');
+            });
+        });
+        
+        // 下载按钮点击统计
+        document.querySelectorAll('.download-btn, .secondary-btn').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // 如果是外部链接（非下载链接），不阻止默认行为
+                if (this.getAttribute('href') && !this.hasAttribute('download')) {
+                    return;
+                }
+                
+                // 获取文件名
+                const fileName = this.getAttribute('href') ? this.getAttribute('href').split('/').pop() : '未知文件';
+                const isWindows = this.closest('.windows-item') !== null;
+                const platform = isWindows ? 'Windows' : 'Android';
+                
+                console.log(`开始下载: ${fileName} (${platform}版)`);
+                
+                // 显示下载提示（如果是下载链接）
+                if (this.hasAttribute('download')) {
+                    alert(`正在下载 ${fileName}\n\n如果下载没有自动开始，请检查浏览器设置。`);
+                }
+            });
+        });
+        
+        // 检测用户设备并推荐对应平台
+        document.addEventListener('DOMContentLoaded', function() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            let deviceType = '未知';
+            
+            if (/windows/i.test(userAgent)) {
+                deviceType = 'Windows';
+            } else if (/android/i.test(userAgent)) {
+                deviceType = 'Android';
+            }
+            
+            // 如果检测到特定设备，自动切换到对应平台标签
+            if (deviceType === 'Windows') {
+                // 已经是Windows标签，不需要切换
+            } else if (deviceType === 'Android') {
+                // 切换到Android标签
+                document.querySelector('.platform-tab[data-platform="android"]').click();
+            }
+            
+            // 添加下载动画效果
+            document.querySelectorAll('.download-btn').forEach(btn => {
+                btn.addEventListener('mouseover', function() {
+                    this.style.transform = 'translateY(-3px)';
+                });
+                
+                btn.addEventListener('mouseout', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // 为推荐软件添加特殊效果
+            document.querySelectorAll('.recommended-badge').forEach(badge => {
+                const item = badge.closest('.software-item');
+                if (item) {
+                    item.style.boxShadow = '0 10px 25px rgba(74, 107, 255, 0.15)';
+                    
+                    // 添加脉动动画
+                    setInterval(() => {
+                        badge.style.opacity = badge.style.opacity === '0.7' ? '1' : '0.7';
+                    }, 1500);
+                }
+            });
+            
+            // 模拟下载计数
+            function updateDownloadCounts() {
+                const windowsCount = document.querySelector('.stat-item:nth-child(1) .stat-value');
+                const androidCount = document.querySelector('.stat-item:nth-child(2) .stat-value');
+                
+                // 模拟随机增加下载量
+                const windowsAdd = Math.floor(Math.random() * 100);
+                const androidAdd = Math.floor(Math.random() * 80);
+                
+                let windowsNum = parseInt(windowsCount.textContent.replace(/,/g, ''));
+                let androidNum = parseInt(androidCount.textContent.replace(/,/g, ''));
+                
+                windowsNum += windowsAdd;
+                androidNum += androidAdd;
+                
+                // 格式化数字
+                windowsCount.textContent = windowsNum.toLocaleString();
+                androidCount.textContent = androidNum.toLocaleString();
+            }
+            
+            // 每30秒更新一次下载计数
+            setInterval(updateDownloadCounts, 30000);
+            
+            // 模拟实时下载计数
+            let downloadInterval;
+            
+            function startDownloadAnimation() {
+                const buttons = document.querySelectorAll('.download-btn');
+                
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 准备下载...';
+                        this.disabled = true;
+                        
+                        // 模拟下载过程
+                        setTimeout(() => {
+                            this.innerHTML = '<i class="fas fa-download"></i> 开始下载';
+                            this.disabled = false;
+                        }, 1500);
+                    });
+                });
+            }
+            
+            // 初始化下载动画
+            startDownloadAnimation();
+        });
+    </script>
+</body>
+</html>
