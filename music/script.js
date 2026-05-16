@@ -53,14 +53,14 @@ class MusicPlayer {
     
     async loadPlaylist() {
         try {
-            const response = await fetch('https://gas-cpu.github.io/music/gequ.txt');
+            const response = await fetch('https://www.685132.xyz/music/gequ.txt');
             const data = await response.json();
             this.playlist = data.map(song => ({
                 name: song.name,
                 artist: song.artist,
-                url: song.url.replace(/^https?:\/\/[^/]+/, 'https://gas-cpu.github.io'),
-                pic: song.pic.replace(/^https?:\/\/[^/]+/, 'https://gas-cpu.github.io'),
-                lrc: song.lrc.replace(/^https?:\/\/[^/]+/, 'https://gas-cpu.github.io')
+                url: song.url.replace(/^https?:\/\/[^/]+/, 'https://www.685132.xyz'),
+                pic: song.pic.replace(/^https?:\/\/[^/]+/, 'https://www.685132.xyz'),
+                lrc: song.lrc.replace(/^https?:\/\/[^/]+/, 'https://www.685132.xyz')
             }));
             this.loadSong();
             this.updatePlaylistInfo();
