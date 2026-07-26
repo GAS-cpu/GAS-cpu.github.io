@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>闪念速记-QuickCapture</title>
+    <style>
+        :root {
+            --bg: #FAFAF8;
+            --card: #FFFFFF;
+            --text: #2C2416;
+            --sub: #8D7B68;
+            --primary: #E67E22;
+            --primary-dark: #D35400;
+            --border: #E8E4DF;
+            --tag: #F5F0EB;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #1A1A16;
+                --card: #252520;
+                --text: #E8E4DF;
+                --sub: #A09888;
+                --primary: #F0A050;
+                --primary-dark: #E67E22;
+                --border: #383430;
+                --tag: #2A2824;
+            }
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 80px 24px 60px;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+        .icon {
+            width: 96px;
+            height: 96px;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(230,126,34,0.25);
+            margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        .hero .tagline {
+            color: var(--sub);
+            font-size: 16px;
+            margin-bottom: 32px;
+        }
+
+        /* Download button */
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary);
+            color: #fff;
+            text-decoration: none;
+            padding: 14px 36px;
+            border-radius: 28px;
+            font-size: 17px;
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(230,126,34,0.35);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(230,126,34,0.45);
+        }
+        .download-btn .arrow { font-size: 20px; }
+        .version {
+            display: block;
+            margin-top: 10px;
+            color: var(--sub);
+            font-size: 13px;
+        }
+
+        /* Features */
+        .features {
+            max-width: 600px;
+            margin: 0 auto 48px;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        .feature {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            transition: border-color 0.2s;
+        }
+        .feature:hover { border-color: var(--primary); }
+        .feature .emoji {
+            font-size: 24px;
+            flex-shrink: 0;
+            width: 36px;
+            text-align: center;
+        }
+        .feature .title {
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 3px;
+        }
+        .feature .desc {
+            color: var(--sub);
+            font-size: 13px;
+        }
+
+        /* Specs table */
+        .specs {
+            max-width: 600px;
+            margin: 0 auto 48px;
+            padding: 0 24px;
+        }
+        .specs h2 {
+            font-size: 18px;
+            margin-bottom: 14px;
+            text-align: center;
+            color: var(--sub);
+        }
+        .specs table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .specs td {
+            padding: 10px 16px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+        .specs td:first-child {
+            color: var(--sub);
+            white-space: nowrap;
+            width: 100px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 32px 24px 48px;
+            color: var(--sub);
+            font-size: 13px;
+        }
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        footer span { margin: 0 8px; opacity: 0.3; }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <img class="icon" src="icon.png" alt="闪念速记图标" onerror="this.style.display='none'">
+    <h1>闪念速记</h1>
+    <p class="tagline">下拉就记，说完就存——你的念头捕手</p>
+    <a class="download-btn" href="闪念速记_1.0.apk" download>
+        <span>下载 APK</span>
+        <span class="arrow">↓</span>
+    </a>
+    <span class="version">v1.0 · Android 6.0+ · ~8MB</span>
+</div>
+
+<div class="features">
+    <div class="feature">
+        <span class="emoji">🔔</span>
+        <div>
+            <p class="title">通知栏速记</p>
+            <p class="desc">下拉通知栏点一下就能记，不打断当前操作，比打开 App 再新建快十倍</p>
+        </div>
+    </div>
+    <div class="feature">
+        <span class="emoji">📝</span>
+        <div>
+            <p class="title">文字格式</p>
+            <p class="desc">加粗、斜体、下划线、删除线、等宽字体，选中即改，未选中则对后续打字生效</p>
+        </div>
+    </div>
+    <div class="feature">
+        <span class="emoji">🏷️</span>
+        <div>
+            <p class="title">自动分类</p>
+            <p class="desc">工作 / 想法 / 待办 / 随手，一键标签，时间线视图像聊天记录一样回看</p>
+        </div>
+    </div>
+    <div class="feature">
+        <span class="emoji">☁️</span>
+        <div>
+            <p class="title">云端同步</p>
+            <p class="desc">登录后一键上传下载，每日 5 次同步，换设备数据不丢</p>
+        </div>
+    </div>
+    <div class="feature">
+        <span class="emoji">🔍</span>
+        <div>
+            <p class="title">全文搜索</p>
+            <p class="desc">搜索任意关键字，瞬间定位你的每一条念头</p>
+        </div>
+    </div>
+    <div class="feature">
+        <span class="emoji">🔒</span>
+        <div>
+            <p class="title">隐私优先</p>
+            <p class="desc">核心功能零网络、零权限。不登录也能用，所有数据本地存储</p>
+        </div>
+    </div>
+    <div class="feature">
+        <span class="emoji">🌙</span>
+        <div>
+            <p class="title">夜间模式</p>
+            <p class="desc">暖白底 + 琥珀色强调，夜间自动深色，眼睛不累</p>
+        </div>
+    </div>
+    <div class="feature">
+        <span class="emoji">📤</span>
+        <div>
+            <p class="title">开机自启</p>
+            <p class="desc">重启手机自动拉起通知栏速记，灵感不走丢</p>
+        </div>
+    </div>
+</div>
+
+<div class="specs">
+    <h2>应用信息</h2>
+    <table>
+        <tr><td>包名</td><td>com.shizuku.quickcapture</td></tr>
+        <tr><td>版本</td><td>v1.0</td></tr>
+        <tr><td>最低系统</td><td>Android 6.0 (API 23)</td></tr>
+        <tr><td>安装包大小</td><td>约 8 MB</td></tr>
+        <tr><td>权限</td><td>通知、开机自启（可选）</td></tr>
+    </table>
+</div>
+
+<footer>
+    <a href="https://github.com/GAS-cpu/GAS-cpu.github.io/tree/main/download/QuickCapture">GitHub</a><span>·</span>闪念速记<span>·</span>由 Cloudflare 提供云端服务
+</footer>
+
+</body>
+</html>
