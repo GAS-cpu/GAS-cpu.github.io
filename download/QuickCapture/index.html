@@ -3,254 +3,421 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>闪念速记-QuickCapture</title>
+    <title>闪念速记 · QuickCapture</title>
+    <link rel="icon" href="icon.png">
     <style>
         :root {
-            --bg: #FAFAF8;
+            --primary: #0D9488;
+            --primary-dark: #0F766E;
+            --primary-bright: #14B8A6;
+            --primary-container: #CCFBF1;
+            --on-primary: #FFFFFF;
+            --bg: #F4F7F6;
             --card: #FFFFFF;
-            --text: #2C2416;
-            --sub: #8D7B68;
-            --primary: #E67E22;
-            --primary-dark: #D35400;
-            --border: #E8E4DF;
-            --tag: #F5F0EB;
+            --text: #0F172A;
+            --sub: #5B6B7B;
+            --border: #E2E8F0;
+            --shadow: 0 10px 40px rgba(15, 23, 42, 0.06);
+            --shadow-lg: 0 18px 60px rgba(13, 148, 136, 0.18);
+            --grad: linear-gradient(135deg, #0D9488 0%, #14B8A6 50%, #2DD4BF 100%);
         }
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg: #1A1A16;
-                --card: #252520;
-                --text: #E8E4DF;
-                --sub: #A09888;
-                --primary: #F0A050;
-                --primary-dark: #E67E22;
-                --border: #383430;
-                --tag: #2A2824;
+                --primary: #2DD4BF;
+                --primary-dark: #14B8A6;
+                --primary-bright: #5EEAD4;
+                --primary-container: #134E4A;
+                --on-primary: #022C22;
+                --bg: #0B1120;
+                --card: #131C2E;
+                --text: #E2E8F0;
+                --sub: #94A3B8;
+                --border: #1E293B;
+                --shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+                --shadow-lg: 0 18px 60px rgba(45, 212, 191, 0.14);
+                --grad: linear-gradient(135deg, #0F766E 0%, #14B8A6 50%, #2DD4BF 100%);
             }
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
             background: var(--bg);
             color: var(--text);
-            line-height: 1.7;
-            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* 顶部导航 */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 28px;
+            background: color-mix(in srgb, var(--bg) 78%, transparent);
+            backdrop-filter: blur(18px) saturate(160%);
+            -webkit-backdrop-filter: blur(18px) saturate(160%);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 17px; }
+        .nav .brand img { width: 30px; height: 30px; border-radius: 8px; }
+        .nav .badge {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            background: var(--primary-container);
+            padding: 4px 12px;
+            border-radius: 999px;
         }
 
         /* Hero */
         .hero {
+            position: relative;
             text-align: center;
-            padding: 80px 24px 60px;
-            max-width: 520px;
-            margin: 0 auto;
+            padding: 76px 24px 84px;
+            overflow: hidden;
         }
-        .icon {
-            width: 96px;
-            height: 96px;
-            border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(230,126,34,0.25);
-            margin-bottom: 24px;
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: -40% -20% auto;
+            height: 560px;
+            background: radial-gradient(60% 60% at 50% 20%, color-mix(in srgb, var(--primary-bright) 30%, transparent), transparent 70%);
+            pointer-events: none;
+        }
+        .hero .icon-wrap {
+            position: relative;
+            width: 104px;
+            height: 104px;
+            margin: 0 auto 26px;
+            border-radius: 26px;
+            padding: 6px;
+            background: var(--grad);
+            box-shadow: var(--shadow-lg);
+            animation: float 5s ease-in-out infinite;
+        }
+        .hero .icon-wrap img {
+            width: 100%;
+            height: 100%;
+            border-radius: 21px;
+            object-fit: cover;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
         .hero h1 {
-            font-size: 32px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            margin-bottom: 8px;
+            position: relative;
+            font-size: clamp(34px, 7vw, 52px);
+            font-weight: 900;
+            letter-spacing: -1px;
+            line-height: 1.15;
+        }
+        .hero h1 .accent {
+            background: var(--grad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
         .hero .tagline {
+            position: relative;
             color: var(--sub);
-            font-size: 16px;
-            margin-bottom: 32px;
+            font-size: 17px;
+            margin: 16px auto 34px;
+            max-width: 620px;
         }
-
-        /* Download button */
+        .tagline .line { white-space: nowrap; }
+        .cta { position: relative; display: inline-flex; flex-direction: column; align-items: center; gap: 12px; }
         .download-btn {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: var(--primary);
-            color: #fff;
+            background: var(--grad);
+            color: var(--on-primary);
             text-decoration: none;
-            padding: 14px 36px;
-            border-radius: 28px;
+            padding: 15px 40px;
+            border-radius: 999px;
             font-size: 17px;
             font-weight: 700;
-            box-shadow: 0 4px 20px rgba(230,126,34,0.35);
-            transition: transform 0.15s, box-shadow 0.15s;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.18s, box-shadow 0.18s, filter 0.18s;
         }
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 28px rgba(230,126,34,0.45);
-        }
-        .download-btn .arrow { font-size: 20px; }
-        .version {
-            display: block;
-            margin-top: 10px;
-            color: var(--sub);
-            font-size: 13px;
-        }
+        .download-btn:hover { transform: translateY(-3px); filter: brightness(1.05); }
+        .download-btn:active { transform: translateY(-1px); }
+        .download-btn .arrow { font-size: 19px; }
+        .version { color: var(--sub); font-size: 13px; }
+        .version b { color: var(--text); }
 
-        /* Features */
+        /* 通用区块 */
+        section { max-width: 1080px; margin: 0 auto; padding: 0 28px 20px; }
+        .section-head { text-align: center; margin: 44px 0 28px; }
+        .section-head h2 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+        .section-head p { color: var(--sub); font-size: 14px; margin-top: 6px; }
+
+        /* 功能网格 */
         .features {
-            max-width: 600px;
-            margin: 0 auto 48px;
-            padding: 0 24px;
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
         }
         .feature {
             background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 18px 20px;
+            border-radius: 16px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            animation: rise 0.5s ease backwards;
+        }
+        .feature:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: color-mix(in srgb, var(--primary) 40%, var(--border)); }
+        @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+        .feature .icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
             display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            transition: border-color 0.2s;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            background: var(--primary-container);
+            margin-bottom: 13px;
         }
-        .feature:hover { border-color: var(--primary); }
-        .feature .emoji {
-            font-size: 24px;
-            flex-shrink: 0;
-            width: 36px;
-            text-align: center;
-        }
-        .feature .title {
-            font-weight: 700;
-            font-size: 15px;
-            margin-bottom: 3px;
-        }
-        .feature .desc {
-            color: var(--sub);
-            font-size: 13px;
-        }
+        .feature .title { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+        .feature .desc { color: var(--sub); font-size: 13px; }
 
-        /* Specs table */
-        .specs {
-            max-width: 600px;
-            margin: 0 auto 48px;
-            padding: 0 24px;
+        /* 液态玻璃特色 */
+        .glass-band {
+            margin: 34px auto 20px;
+            padding: 34px 30px;
+            border-radius: 22px;
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(80% 120% at 0% 0%, rgba(45, 212, 191, 0.35), transparent 55%),
+                radial-gradient(80% 120% at 100% 100%, rgba(13, 148, 136, 0.4), transparent 55%),
+                var(--card);
+            border: 1px solid var(--border);
         }
-        .specs h2 {
-            font-size: 18px;
-            margin-bottom: 14px;
-            text-align: center;
-            color: var(--sub);
+        .glass-band::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            backdrop-filter: blur(0px);
+            pointer-events: none;
         }
-        .specs table {
-            width: 100%;
-            border-collapse: collapse;
+        .glass-band h3 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+        .glass-band p { color: var(--sub); font-size: 14px; max-width: 560px; }
+        .glass-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+        .glass-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            background: color-mix(in srgb, var(--card) 55%, transparent);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
-        .specs td {
-            padding: 10px 16px;
+        .glass-pill .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--grad); }
+
+        /* 更新日志 */
+        .changelog { display: flex; flex-direction: column; gap: 12px; }
+        .log {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px 20px;
+        }
+        .log .ver {
+            font-weight: 700;
             font-size: 14px;
+            color: var(--primary);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .log .ver .tag {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 1px 8px;
+            border-radius: 6px;
+            background: var(--primary-container);
+            color: var(--primary-dark);
+        }
+        .log ul { list-style: none; margin-top: 4px; }
+        .log li { color: var(--sub); font-size: 13px; padding: 2px 0; padding-left: 18px; position: relative; }
+        .log li::before { content: "—"; position: absolute; left: 0; color: var(--primary-bright); }
+
+        /* 应用信息表 */
+        .specs {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .specs .row {
+            display: flex;
+            align-items: center;
+            padding: 14px 22px;
             border-bottom: 1px solid var(--border);
+            font-size: 14px;
         }
-        .specs td:first-child {
-            color: var(--sub);
-            white-space: nowrap;
-            width: 100px;
-        }
+        .specs .row:last-child { border-bottom: none; }
+        .specs .k { width: 110px; flex-shrink: 0; color: var(--sub); }
+        .specs .v { font-weight: 500; }
 
         /* Footer */
         footer {
             text-align: center;
-            padding: 32px 24px 48px;
+            padding: 44px 24px 54px;
             color: var(--sub);
             font-size: 13px;
         }
-        footer a {
-            color: var(--primary);
-            text-decoration: none;
+        footer a { color: var(--primary); text-decoration: none; }
+        footer .links { margin-bottom: 10px; }
+        footer .links span { margin: 0 8px; opacity: 0.35; }
+
+        /* 平板 */
+        @media (max-width: 900px) {
+            .features { grid-template-columns: repeat(2, 1fr); }
         }
-        footer span { margin: 0 8px; opacity: 0.3; }
+
+        /* 手机 */
+        @media (max-width: 640px) {
+            .nav { padding: 12px 16px; }
+            .hero { padding: 52px 20px 58px; }
+            .hero .icon-wrap { width: 88px; height: 88px; border-radius: 22px; }
+            .hero .icon-wrap img { border-radius: 17px; }
+            .tagline { font-size: 15px; }
+            .tagline .line { display: block; white-space: normal; }
+            section { padding: 0 16px 12px; }
+            .features { grid-template-columns: 1fr; }
+            .glass-band { padding: 24px 20px; }
+            .glass-band h3 { font-size: 19px; }
+            .specs .row { padding: 13px 18px; }
+            .specs .k { width: 84px; }
+            .download-btn { width: 100%; justify-content: center; padding: 14px 24px; }
+        }
     </style>
 </head>
 <body>
 
+<nav class="nav">
+    <div class="brand">
+        <img src="icon.png" alt="闪念速记" onerror="this.style.display='none'">
+        闪念速记
+    </div>
+    <span class="badge">v3.12</span>
+</nav>
+
 <div class="hero">
-    <img class="icon" src="icon.png" alt="闪念速记图标" onerror="this.style.display='none'">
-    <h1>闪念速记</h1>
-    <p class="tagline">下拉就记，说完就存——你的念头捕手</p>
-    <a class="download-btn" href="闪念速记_3.12.apk" download>
-        <span>下载 APK</span>
-        <span class="arrow">↓</span>
-    </a>
-    <span class="version">v3.12 · Android 6.0+ · ~8MB</span>
-</div>
-
-<div class="features">
-    <div class="feature">
-        <span class="emoji">🔔</span>
-        <div>
-            <p class="title">通知栏速记</p>
-            <p class="desc">下拉通知栏点一下就能记，不打断当前操作，比打开 App 再新建快十倍</p>
-        </div>
+    <div class="icon-wrap">
+        <img src="icon.png" alt="闪念速记图标" onerror="this.style.display='none'">
     </div>
-    <div class="feature">
-        <span class="emoji">📝</span>
-        <div>
-            <p class="title">文字格式</p>
-            <p class="desc">加粗、斜体、下划线、删除线、等宽字体，选中即改，未选中则对后续打字生效</p>
-        </div>
-    </div>
-    <div class="feature">
-        <span class="emoji">🏷️</span>
-        <div>
-            <p class="title">自动分类</p>
-            <p class="desc">工作 / 想法 / 待办 / 随手，一键标签，时间线视图像聊天记录一样回看</p>
-        </div>
-    </div>
-    <div class="feature">
-        <span class="emoji">☁️</span>
-        <div>
-            <p class="title">云端同步</p>
-            <p class="desc">登录后一键上传下载，每日 5 次同步，换设备数据不丢</p>
-        </div>
-    </div>
-    <div class="feature">
-        <span class="emoji">🔍</span>
-        <div>
-            <p class="title">全文搜索</p>
-            <p class="desc">搜索任意关键字，瞬间定位你的每一条念头</p>
-        </div>
-    </div>
-    <div class="feature">
-        <span class="emoji">🔒</span>
-        <div>
-            <p class="title">隐私优先</p>
-            <p class="desc">核心功能零网络、零权限。不登录也能用，所有数据本地存储</p>
-        </div>
-    </div>
-    <div class="feature">
-        <span class="emoji">🌙</span>
-        <div>
-            <p class="title">夜间模式</p>
-            <p class="desc">暖白底 + 琥珀色强调，夜间自动深色，眼睛不累</p>
-        </div>
-    </div>
-    <div class="feature">
-        <span class="emoji">📤</span>
-        <div>
-            <p class="title">开机自启</p>
-            <p class="desc">重启手机自动拉起通知栏速记，灵感不走丢</p>
-        </div>
+    <h1>闪念<span class="accent">速记</span></h1>
+    <p class="tagline"><span class="line">下拉就记，说完就存。</span><span class="line">一条念头，从闪现到落笔，只要一秒钟。</span></p>
+    <div class="cta">
+        <a class="download-btn" href="闪念速记_3.12.apk" download>
+            <span>下载 Android 版</span>
+            <span class="arrow">↓</span>
+        </a>
+        <span class="version"><b>v3.12</b> · Android 6.0+ · 约 14 MB · 无需注册即可使用</span>
     </div>
 </div>
 
-<div class="specs">
-    <h2>应用信息</h2>
-    <table>
-        <tr><td>包名</td><td>com.shizuku.quickcapture</td></tr>
-        <tr><td>版本</td><td>v3.12</td></tr>
-        <tr><td>最低系统</td><td>Android 6.0 (API 23)</td></tr>
-        <tr><td>安装包大小</td><td>约 8 MB</td></tr>
-        <tr><td>权限</td><td>通知、开机自启（可选）</td></tr>
-    </table>
-</div>
+<section>
+    <div class="section-head">
+        <h2>为什么选择闪念速记</h2>
+        <p>轻量、纯粹、快，专为「捕捉念头」而生的极简笔记</p>
+    </div>
+    <div class="features">
+        <div class="feature"><div class="icon">🔔</div><p class="title">通知栏速记</p><p class="desc">下拉通知栏点一下即可记录，不打断当前操作</p></div>
+        <div class="feature"><div class="icon">✨</div><p class="title">液态玻璃界面</p><p class="desc">毛玻璃底栏 + 透镜折射，现代质感的视觉体验</p></div>
+        <div class="feature"><div class="icon">✍️</div><p class="title">文字格式</p><p class="desc">加粗 / 斜体 / 下划线 / 删除线 / 等宽，富文本随手就来</p></div>
+        <div class="feature"><div class="icon">🏷️</div><p class="title">标签分类</p><p class="desc">工作 / 想法 / 待办 / 随手，支持自定义标签</p></div>
+        <div class="feature"><div class="icon">📌</div><p class="title">置顶笔记</p><p class="desc">重要笔记一键置顶，永远排在最前面</p></div>
+        <div class="feature"><div class="icon">🔒</div><p class="title">锁定隐私</p><p class="desc">密码锁定单篇笔记，列表不显示内容</p></div>
+        <div class="feature"><div class="icon">🗑️</div><p class="title">回收站</p><p class="desc">删除可恢复，7 天自动清理，误删不慌</p></div>
+        <div class="feature"><div class="icon">📊</div><p class="title">数据统计</p><p class="desc">笔记总数、标签分布、近 7 天趋势一目了然</p></div>
+        <div class="feature"><div class="icon">☁️</div><p class="title">云端同步</p><p class="desc">登录后一键上传 / 下载，换设备数据不丢</p></div>
+        <div class="feature"><div class="icon">🔍</div><p class="title">全文搜索</p><p class="desc">任意关键字，瞬间定位每一条念头</p></div>
+        <div class="feature"><div class="icon">📋</div><p class="title">多选管理</p><p class="desc">批量删除，复制 / 分享 / 多选，管理更高效</p></div>
+        <div class="feature"><div class="icon">🌙</div><p class="title">夜间模式</p><p class="desc">跟随系统深浅色，夜间不刺眼</p></div>
+    </div>
+</section>
+
+<section>
+    <div class="glass-band">
+        <h3>液态玻璃，不止好看</h3>
+        <p>主界面采用毛玻璃与透镜折射效果，笔记列表在底栏下方真实透出、被柔化与折射。搭配自动换行的标签栏和悬浮加号按钮，操作跟手、视觉统一。</p>
+        <div class="glass-pills">
+            <span class="glass-pill"><span class="dot"></span>毛玻璃底栏</span>
+            <span class="glass-pill"><span class="dot"></span>透镜折射</span>
+            <span class="glass-pill"><span class="dot"></span>横向感叹号布局</span>
+            <span class="glass-pill"><span class="dot"></span>图标自适应</span>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="section-head">
+        <h2>最近更新</h2>
+        <p>持续打磨，越来越好用</p>
+    </div>
+    <div class="changelog">
+        <div class="log">
+            <div class="ver">v3.12 <span class="tag">最新</span></div>
+            <ul>
+                <li>编辑长文本支持惯性滑动，松手不再立即停</li>
+                <li>启动自动同步不再覆盖本地未上传的改动</li>
+                <li>跳过登录后，下次打开直接进入主界面</li>
+            </ul>
+        </div>
+        <div class="log">
+            <div class="ver">v3.11</div>
+            <ul>
+                <li>锁定状态自动同步到云端</li>
+                <li>App 内下载更新，通知栏 + 弹窗显示进度</li>
+                <li>置顶标识加背景、设置页新增更新公告</li>
+            </ul>
+        </div>
+        <div class="log">
+            <div class="ver">v3.10</div>
+            <ul>
+                <li>修复 Android 7.x 无法打开的问题</li>
+                <li>主页置顶改用「置顶」标签样式</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="section-head">
+        <h2>应用信息</h2>
+    </div>
+    <div class="specs">
+        <div class="row"><span class="k">包名</span><span class="v">com.shizuku.quickcapture</span></div>
+        <div class="row"><span class="k">当前版本</span><span class="v">v3.12</span></div>
+        <div class="row"><span class="k">最低系统</span><span class="v">Android 6.0（API 23）</span></div>
+        <div class="row"><span class="k">安装包大小</span><span class="v">约 14 MB</span></div>
+        <div class="row"><span class="k">所需权限</span><span class="v">通知、开机自启（可选）、安装更新包</span></div>
+        <div class="row"><span class="k">隐私说明</span><span class="v">不登录也能用，数据本地存储，账号仅用于云同步</span></div>
+    </div>
+</section>
 
 <footer>
-    <a href="https://github.com/GAS-cpu/GAS-cpu.github.io/tree/main/download/QuickCapture">GitHub</a><span>·</span>闪念速记<span>·</span>由 Cloudflare 提供云端服务
+    <div class="links">
+        <a href="https://github.com/GAS-cpu/GAS-cpu.github.io/tree/main/download/QuickCapture">GitHub</a><span>·</span>闪念速记<span>·</span>云端服务由 Cloudflare 提供
+    </div>
+    <div>© 2026 闪念速记 · 你的念头捕手</div>
 </footer>
 
 </body>
