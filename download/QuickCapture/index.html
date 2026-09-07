@@ -149,6 +149,19 @@
         .download-btn:hover { transform: translateY(-3px); filter: brightness(1.05); }
         .download-btn:active { transform: translateY(-1px); }
         .download-btn .arrow { font-size: 19px; }
+        .download-btn.win {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            box-shadow: none;
+            padding: 13px 38px;
+        }
+        .download-btn.win:hover {
+            background: var(--primary);
+            color: var(--on-primary);
+            filter: none;
+            transform: translateY(-3px);
+        }
         .version { color: var(--sub); font-size: 13px; }
         .version b { color: var(--text); }
 
@@ -315,7 +328,7 @@
         <img src="icon.png" alt="闪念速记" onerror="this.style.display='none'">
         闪念速记
     </div>
-    <span class="badge">v3.12</span>
+    <span class="badge">v3.13</span>
 </nav>
 
 <div class="hero">
@@ -325,11 +338,15 @@
     <h1>闪念<span class="accent">速记</span></h1>
     <p class="tagline"><span class="line">下拉就记，说完就存。</span><span class="line">一条念头，从闪现到落笔，只要一秒钟。</span></p>
     <div class="cta">
-        <a class="download-btn" href="闪念速记_3.12.apk" download>
+        <a class="download-btn" href="闪念速记_3.13.apk" download>
             <span>下载 Android 版</span>
             <span class="arrow">↓</span>
         </a>
-        <span class="version"><b>v3.12</b> · Android 6.0+ · 约 14 MB</span>
+        <a class="download-btn win" href="https://www.685132.xyz/download/QuickCapture/QuickCapture.exe" download>
+            <span>下载 Windows 版</span>
+            <span class="arrow">↓</span>
+        </a>
+        <span class="version"><b>v3.13</b> · Android 6.0+ · 约 14 MB · 无需注册即可使用</span>
     </div>
 </div>
 
@@ -374,7 +391,15 @@
     </div>
     <div class="changelog">
         <div class="log">
-            <div class="ver">v3.12 <span class="tag">最新</span></div>
+            <div class="ver">v3.13 <span class="tag">最新</span></div>
+            <ul>
+                <li>新增「导入导出」，可加密备份与还原笔记</li>
+                <li>安卓端与 Windows 端备份文件互通</li>
+                <li>Windows 版新增快捷键、启动自动检查更新</li>
+            </ul>
+        </div>
+        <div class="log">
+            <div class="ver">v3.12</div>
             <ul>
                 <li>编辑长文本支持惯性滑动，松手不再立即停</li>
                 <li>启动自动同步不再覆盖本地未上传的改动</li>
@@ -389,13 +414,6 @@
                 <li>置顶标识加背景、设置页新增更新公告</li>
             </ul>
         </div>
-        <div class="log">
-            <div class="ver">v3.10</div>
-            <ul>
-                <li>修复 Android 7.x 无法打开的问题</li>
-                <li>主页置顶改用「置顶」标签样式</li>
-            </ul>
-        </div>
     </div>
 </section>
 
@@ -405,7 +423,7 @@
     </div>
     <div class="specs">
         <div class="row"><span class="k">包名</span><span class="v">com.shizuku.quickcapture</span></div>
-        <div class="row"><span class="k">当前版本</span><span class="v">v3.12</span></div>
+        <div class="row"><span class="k">当前版本</span><span class="v">v3.13</span></div>
         <div class="row"><span class="k">最低系统</span><span class="v">Android 6.0（API 23）</span></div>
         <div class="row"><span class="k">安装包大小</span><span class="v">约 14 MB</span></div>
         <div class="row"><span class="k">所需权限</span><span class="v">通知、开机自启（可选）、安装更新包</span></div>
