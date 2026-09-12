@@ -162,6 +162,19 @@
             filter: none;
             transform: translateY(-3px);
         }
+        .download-btn.web {
+            background: transparent;
+            color: var(--sub);
+            border: 2px solid var(--border);
+            box-shadow: none;
+            padding: 13px 38px;
+        }
+        .download-btn.web:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            filter: none;
+            transform: translateY(-3px);
+        }
         .version { color: var(--sub); font-size: 13px; }
         .version b { color: var(--text); }
 
@@ -345,6 +358,10 @@
         <a class="download-btn win" href="https://www.685132.xyz/download/QuickCapture/QuickCapture.exe" download>
             <span>下载 Windows 版</span>
             <span class="arrow">↓</span>
+        </a>
+        <a class="download-btn web" href="https://www.685132.xyz/QuickCapture" target="_blank">
+            <span>进入网页版</span>
+            <span class="arrow">→</span>
         </a>
         <span class="version"><b>v3.15</b> · Android 6.0+ · 约 14 MB · 无需注册即可使用</span>
     </div>
