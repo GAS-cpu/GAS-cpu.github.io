@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>闪念速记 · 网页版</title>
 <link rel="icon" href="icon.png">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 <style>
 :root {
   --primary: #0D9488;
@@ -530,6 +531,9 @@ header .user { font-size: 12px; color: var(--primary); font-weight: 600; }
     <button class="btn btn-primary" id="login-submit">登录</button>
     <button class="btn btn-ghost" id="login-toggle">没有账号？注册一个</button>
     <div id="login-error"></div>
+    <div id="turnstile-wrap" class="hidden">
+      <div id="turnstile-container"></div>
+    </div>
     <div class="tip">数据云端存储，与安卓 / Windows 端互通</div>
   </div>
 </div>
@@ -783,13 +787,20 @@ $('login-submit').addEventListener('click', async () => {
   $('login-submit').textContent = state.mode === 'login' ? '登录中…' : '注册中…';
   $('login-error').textContent = '';
 
-  const path = state.mode === 'login' ? '/api/auth/login' : '/api/auth/register';
-  const body = state.mode === 'login'
-    ? { username, password }
-    : { username, password, nickname: username };
+  if (state.mode === 'login') {
+    const res = await api('/api/auth/login', { method: 'POST', body: { username, password } });
+    handleAuthResult(res, username);
+  } else {
+    await doRegister(username, password);
+  }
+});
 
-  const res = await api(path, { method: 'POST', body });
+function resetLoginBtn() {
+  $('login-submit').disabled = false;
+  $('login-submit').textContent = state.mode === 'login' ? '登录' : '注册';
+}
 
+function handleAuthResult(res, username) {
   if (res.ok && res.token) {
     state.token = res.token;
     state.username = username;
@@ -797,14 +808,64 @@ $('login-submit').addEventListener('click', async () => {
     localStorage.setItem('qc_username', username);
     $('login-password').value = '';
     showApp();
-    await loadNotes();
-    await updateCount();
+    loadNotes();
+    updateCount();
   } else {
     $('login-error').textContent = res.error || (state.mode === 'login' ? '登录失败' : '注册失败');
-    $('login-submit').disabled = false;
-    $('login-submit').textContent = state.mode === 'login' ? '登录' : '注册';
+    resetLoginBtn();
   }
-});
+}
+
+const TURNSTILE_SITE_KEY = '0x4AAAAAAE7k8k8EJxH8pJIi';
+
+async function doRegister(username, password) {
+  // Cloudflare Turnstile 人机验证
+  const token = await askTurnstile();
+  if (token == null) {
+    resetLoginBtn();
+    return;
+  }
+  const res = await api('/api/auth/register', {
+    method: 'POST',
+    body: { username, password, nickname: username, turnstileToken: token },
+  });
+  handleAuthResult(res, username);
+}
+
+function askTurnstile() {
+  return new Promise((resolve) => {
+    const wrap = $('turnstile-wrap');
+    const container = $('turnstile-container');
+    wrap.classList.remove('hidden');
+    container.innerHTML = '';
+
+    const render = () => {
+      if (window.turnstile) {
+        window.turnstile.render(container, {
+          sitekey: TURNSTILE_SITE_KEY,
+          callback: (token) => {
+            wrap.classList.add('hidden');
+            resolve(token);
+          },
+          'expired-callback': () => {
+            wrap.classList.add('hidden');
+            resolve(null);
+          },
+          'error-callback': () => {
+            wrap.classList.add('hidden');
+            resolve(null);
+          },
+        });
+      } else {
+        setTimeout(() => {
+          if (window.turnstile) render();
+          else { wrap.classList.add('hidden'); resolve(null); }
+        }, 500);
+      }
+    };
+    render();
+  });
+}
 
 // 回车登录
 $('login-password').addEventListener('keydown', (e) => {
@@ -1118,13 +1179,18 @@ function closePwd() {
 }
 $('pwd-ok').addEventListener('click', async () => {
   const pwd = $('pwd-input').value;
-  if (!pwd) { $('pwd-error').textContent = '请输入密码'; return; }
+  if (!pwd) { $('pwd-error').textContent = '请输入'; return; }
   const cb = state.pwdCallback;
   state.pwdCallback = null;
   closePwd();
   if (cb) await cb(pwd);
 });
-$('pwd-cancel').addEventListener('click', closePwd);
+$('pwd-cancel').addEventListener('click', () => {
+  const cb = state.pwdCallback;
+  state.pwdCallback = null;
+  closePwd();
+  if (cb) cb(null);
+});
 $('pwd-input').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') $('pwd-ok').click();
 });
