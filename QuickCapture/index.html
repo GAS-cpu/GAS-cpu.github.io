@@ -670,6 +670,61 @@ function api(path, { method = 'GET', body } = {}) {
   }).catch((e) => ({ ok: false, error: '网络错误：' + e.message }));
 }
 
+// ---------- 内容加密（与安卓/PC 端一致：SHA-256 计数器模式 XOR 流） ----------
+const CONTENT_PREFIX = 'ENC:';
+
+async function sha256Hex(s) {
+  const d = new TextEncoder().encode(s);
+  const h = await crypto.subtle.digest('SHA-256', d);
+  return Array.from(new Uint8Array(h)).map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function contentKeystream(length) {
+  const keyStr = await sha256Hex('quickcapture-content-key-v1');
+  const keyBytes = new TextEncoder().encode(keyStr);
+  const out = new Uint8Array(length);
+  let counter = 0, pos = 0;
+  while (pos < length) {
+    const counterBytes = new Uint8Array(4);
+    new DataView(counterBytes.buffer).setUint32(0, counter, false);
+    const blockInput = new Uint8Array(keyBytes.length + 4);
+    blockInput.set(keyBytes, 0);
+    blockInput.set(counterBytes, keyBytes.length);
+    const block = new Uint8Array(await crypto.subtle.digest('SHA-256', blockInput));
+    const n = Math.min(block.length, length - pos);
+    out.set(block.subarray(0, n), pos);
+    pos += n;
+    counter++;
+  }
+  return out;
+}
+
+async function encryptContent(text) {
+  if (!text) return text;
+  const data = new TextEncoder().encode(text);
+  const ks = await contentKeystream(data.length);
+  const enc = new Uint8Array(data.length);
+  for (let i = 0; i < data.length; i++) enc[i] = data[i] ^ ks[i];
+  let bin = '';
+  for (let i = 0; i < enc.length; i++) bin += String.fromCharCode(enc[i]);
+  return CONTENT_PREFIX + btoa(bin);
+}
+
+async function decryptContent(s) {
+  if (!s || !s.startsWith(CONTENT_PREFIX)) return s;
+  try {
+    const bin = atob(s.slice(CONTENT_PREFIX.length));
+    const enc = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) enc[i] = bin.charCodeAt(i);
+    const ks = await contentKeystream(enc.length);
+    const data = new Uint8Array(enc.length);
+    for (let i = 0; i < enc.length; i++) data[i] = enc[i] ^ ks[i];
+    return new TextDecoder().decode(data);
+  } catch (e) {
+    return s;
+  }
+}
+
 function toast(msg) {
   const t = $('toast');
   t.textContent = msg;
@@ -887,7 +942,10 @@ $('btn-logout').addEventListener('click', () => {
 async function loadNotes() {
   const res = await api('/api/sync/download');
   if (res.ok && Array.isArray(res.notes)) {
-    state.notes = res.notes;
+    state.notes = [];
+    for (const n of res.notes) {
+      state.notes.push({ ...n, content: await decryptContent(n.content || '') });
+    }
     render();
   } else {
     toast(res.error || '加载失败');
@@ -907,9 +965,13 @@ function scheduleUpload() {
 }
 
 async function doUpload() {
-  // 只上传未删除的笔记
+  // 只上传未删除的笔记，上传前加密内容
   const notes = state.notes.filter((n) => !n.isDeleted);
-  const res = await api('/api/sync/upload', { method: 'POST', body: { notes } });
+  const encNotes = [];
+  for (const n of notes) {
+    encNotes.push({ ...n, content: await encryptContent(n.content || '') });
+  }
+  const res = await api('/api/sync/upload', { method: 'POST', body: { notes: encNotes } });
   if (res.ok) {
     $('app-count').textContent = '今日 ' + res.count + '/' + res.total + ' 次';
     toast('已同步到云端');
